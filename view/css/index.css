@@ -1,0 +1,10 @@
+body {
+}
+
+.deconnexion {
+	background-color: #ff2c5d;
+}
+
+.deconnexion > a {
+	color: #fff !important;
+}
