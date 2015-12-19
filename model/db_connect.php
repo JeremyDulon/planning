@@ -8,13 +8,13 @@
 
 $login = "jeremy.dulon@live.fr";
 $motDePasse = "password";
-$bdd = new PDO('mysql:host=localhost;dbname=hyperplanning;charset=utf8', 'root', '');
+$bdd = new PDO('mysql:host=	mysql.hostinger.fr;dbname=u155999183_hyper;charset=utf8', 'u155999183_root', 'ingesup');
 
 connexion($bdd,$login,$motDePasse);
 
 
 function connexion ($bdd, $login, $password) {
-    $requete = "SELECT * FROM Utilisateur WHERE email = '" . $login . "' AND mdp = '" . $password . "'";
+    $requete = "SELECT * FROM utilisateur WHERE email = '" . $login . "' AND mdp = '" . $password . "'";
     $resultat = $bdd->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $user = $resultat->fetch();

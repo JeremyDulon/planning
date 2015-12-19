@@ -9,12 +9,13 @@ include_once 'model/db_connect.php';
 
 $login = "jeremy.dulon@live.fr";
 $motDePasse = "password";
-$bdd = new PDO('mysql:host=localhost;dbname=hyperplanning;charset=utf8', 'root', '');
+$bdd = new PDO('mysql:host=	mysql.hostinger.fr;dbname=u155999183_hyper;charset=utf8', 'u155999183_root', 'ingesup');
 
 $user = connexion($bdd,$login,$motDePasse);
 
 if ($user) {
     $_SESSION['user'] = $user->Prenom.' '.$user->Nom;
+    $projects = getUserProjects($bdd,$user);
 }
 
 ?>
@@ -25,7 +26,7 @@ if ($user) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Jeremy Dulon">
-    <title>Jeremy Dulon</title>
+    <title>Nov'yperplanning</title>
 
     <link href="view/css/bootstrap.css" rel="stylesheet">
     <link href="view/css/index.css" rel="stylesheet">
@@ -36,8 +37,27 @@ if ($user) {
         scheduler.config.xml_date="%Y-%m-%d %H:%i";
         scheduler.config.first_hour = 8;
         scheduler.config.last_hour = 20;
-        scheduler.init('scheduler_here',new Date(2015,9,10),"week");
+        scheduler.config.readonly = true;
+        scheduler.config.details_on_dblclick = true;
+        scheduler.config.readonly_form = true;
+        scheduler.init('scheduler_here',new Date(),"week");
         scheduler.load("events.xml");
+        <?php foreach ($projects as $project) { ?>
+        scheduler.addEvent({
+            start_date: new Date("<?php echo ($project['Date_debut']);?>"),
+            end_date:  new Date("<?php echo ($project['Date_fin']);?>"),
+            text:   "<?php echo ($project['Nom']);?>",
+            room:   "5",     //userdata
+            color: "red"
+        });
+        <?php }?>
+
+        scheduler.addEvent({
+            start_date: new Date(),
+            end_date:  new Date(),
+            text:   "Test",
+            room:   "5"     //userdata
+        });
 
     }
 </script>
@@ -61,6 +81,7 @@ if ($user) {
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
     </nav>
+
     <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:75%;'>
         <div class="dhx_cal_navline">
             <div class="dhx_cal_prev_button">&nbsp;</div>
