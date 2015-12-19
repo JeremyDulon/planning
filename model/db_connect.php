@@ -8,7 +8,7 @@
 
 $login = "jeremy.dulon@live.fr";
 $motDePasse = "password";
-$bdd = new PDO('mysql:host=	mysql.hostinger.fr;dbname=u155999183_hyper;charset=utf8', 'u155999183_root', 'ingesup');
+$bdd = new PDO('mysql:host=mysql.hostinger.fr;dbname=u155999183_hyper;charset=utf8', 'u155999183_root', 'ingesup');
 
 connexion($bdd,$login,$motDePasse);
 

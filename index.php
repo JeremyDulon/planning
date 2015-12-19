@@ -9,7 +9,7 @@ include_once 'model/db_connect.php';
 
 $login = "jeremy.dulon@live.fr";
 $motDePasse = "password";
-$bdd = new PDO('mysql:host=	mysql.hostinger.fr;dbname=u155999183_hyper;charset=utf8', 'u155999183_root', 'ingesup');
+$bdd = new PDO('mysql:host=mysql.hostinger.fr;dbname=u155999183_hyper;charset=utf8', 'u155999183_root', 'ingesup');
 
 $user = connexion($bdd,$login,$motDePasse);
 
