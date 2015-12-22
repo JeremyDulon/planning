@@ -5,19 +5,21 @@
  * Date: 15/12/2015
  * Time: 21:49
  */
+session_start();
 include_once 'model/db_connect.php';
 
-$login = "jeremy.dulon@live.fr";
-$motDePasse = "password";
-$bdd = new PDO('mysql:host=mysql.hostinger.fr;dbname=u155999183_hyper;charset=utf8', 'u155999183_root', 'ingesup');
+if ($_POST) {
+    $login = $_POST['login'];
+    $motDePasse = $_POST['mdp'];
+    $bdd = new PDO('mysql:host=localhost;dbname=hyperplanning;charset=utf8', 'root', '');
 
-$user = connexion($bdd,$login,$motDePasse);
+    $user = connexion($bdd,$login,$motDePasse);
 
-if ($user) {
-    $_SESSION['user'] = $user->Prenom.' '.$user->Nom;
-    $projects = getUserProjects($bdd,$user);
+    if ($user) {
+        $_SESSION['user'] = $user;
+        $projects = getUserProjects($bdd, $user);
+    }
 }
-
 ?>
 
 <html>
@@ -28,7 +30,7 @@ if ($user) {
     <meta name="author" content="Jeremy Dulon">
     <title>Nov'yperplanning</title>
 
-    <link href="view/css/bootstrap.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <link href="view/css/index.css" rel="stylesheet">
 </head>
 
@@ -42,7 +44,8 @@ if ($user) {
         scheduler.config.readonly_form = true;
         scheduler.init('scheduler_here',new Date(),"week");
         scheduler.load("events.xml");
-        <?php foreach ($projects as $project) { ?>
+        <?php if (isset($projects)) {
+            foreach ($projects as $project) { ?>
         scheduler.addEvent({
             start_date: new Date("<?php echo ($project['Date_debut']);?>"),
             end_date:  new Date("<?php echo ($project['Date_fin']);?>"),
@@ -50,7 +53,7 @@ if ($user) {
             room:   "5",     //userdata
             color: "red"
         });
-        <?php }?>
+        <?php }} ?>
 
         scheduler.addEvent({
             start_date: new Date(),
@@ -64,37 +67,11 @@ if ($user) {
 <script src="dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" href="dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
 
-<body onload="init();">
-    <nav class="navbar navbar-default" id="navbar">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Nov'yperplanning</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#">Profil</a></li> <!-- mettre un lien vers le profil -->
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#"><?php echo $_SESSION['user'] ?></a></li>
-                    <li class="deconnexion"><a class="deconnexion" href="#">Déconnexion</a></li>
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-    </nav>
+<?php if (isset($_SESSION['user']))
+    include_once 'view/planning.php';
 
-    <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:75%;'>
-        <div class="dhx_cal_navline">
-            <div class="dhx_cal_prev_button">&nbsp;</div>
-            <div class="dhx_cal_next_button">&nbsp;</div>
-            <div class="dhx_cal_today_button"></div>
-            <div class="dhx_cal_date"></div>
-            <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-            <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-            <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
-        </div>
-        <div class="dhx_cal_header">
-        </div>
-        <div class="dhx_cal_data">
-        </div>
-    </div>
-</body>
+else
+    include_once 'view/login.php'; ?>
+
+
+</html>

@@ -5,13 +5,7 @@
  * Date: 15/12/2015
  * Time: 21:50
  */
-
-$login = "jeremy.dulon@live.fr";
-$motDePasse = "password";
-$bdd = new PDO('mysql:host=mysql.hostinger.fr;dbname=u155999183_hyper;charset=utf8', 'u155999183_root', 'ingesup');
-
-connexion($bdd,$login,$motDePasse);
-
+$bdd = new PDO('mysql:host=localhost;dbname=hyperplanning;charset=utf8', 'root', '');
 
 function connexion ($bdd, $login, $password) {
     $requete = "SELECT * FROM utilisateur WHERE email = '" . $login . "' AND mdp = '" . $password . "'";
@@ -19,8 +13,8 @@ function connexion ($bdd, $login, $password) {
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $user = $resultat->fetch();
     if (!$user) {
-        echo("identifiant ou mot de passe incorrect!");
-        exit();
+        ?><script type="text/javascript" charset="utf-8">alert("Identifiant ou mot de passe incorrect!");</script><?php
+        return null;
     }
 
     return $user;
@@ -31,11 +25,21 @@ function connexion ($bdd, $login, $password) {
 function getUserProjects($bdd, $user) {
 
     $requete = "SELECT * FROM projet_utilisateur WHERE utilisateurid = ".$user->Id;
-    foreach  ($bdd->query($requete) as $row) {
-        $query = "SELECT * FROM projet WHERE id =".$row['ProjetId'];
-        foreach  ($bdd->query($query) as $row_projet) {
-            $projets[] = $row_projet;
+
+    if ($bdd->query($requete)) {
+        foreach ($bdd->query($requete) as $row) {
+            $query = "SELECT * FROM projet WHERE id =" . $row['ProjetId'];
+            foreach ($bdd->query($query) as $row_projet) {
+                $projets[] = $row_projet;
+            }
         }
     }
-    return $projets;
+
+    if (isset($projets)) {
+        return $projets;
+    }
+
+    else {
+        return null;
+    }
 }

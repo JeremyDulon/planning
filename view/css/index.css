@@ -8,3 +8,53 @@ body {
 .deconnexion > a {
 	color: #fff !important;
 }
+
+.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+	margin-top: 15%;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+	margin-bottom: 10px;
+	color: #ff2c5d;
+}
+.form-signin .checkbox {
+	font-weight: normal;
+}
+.form-signin .form-control {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+}
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+.form-signin input[type="email"] {
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+
+.btn-primary {
+	background-color: #2dc89b;
+	border-color: #2dc89b;
+}
+
+.btn-primary:hover {
+	background-color: #009568;
+	border-color: #009568;
+}
+
+.remember-me {
+	color: #ff2c5d;
+}
